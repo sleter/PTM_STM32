@@ -1,0 +1,23 @@
+15:40:24 **** Incremental Build of configuration Debug for project Pro1 ****
+make all 
+Building file: ../src/main.c
+Invoking: MCU GCC Compiler
+D:\stm32\workspace\Pro1\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F407VGTx -DSTM32F4DISCOVERY -DDEBUG -DSTM32F40XX -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -I"D:/stm32/workspace/Pro1/Utilities" -I"D:/stm32/workspace/Pro1/StdPeriph_Driver/inc" -I"D:/stm32/workspace/Pro1/inc" -I"D:/stm32/workspace/Pro1/CMSIS/device" -I"D:/stm32/workspace/Pro1/CMSIS/core" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+Finished building: ../src/main.c
+ 
+Building target: Pro1.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"D:\stm32\workspace\Pro1\LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "Pro1.elf" @"objects.list"   -lm
+Finished building target: Pro1.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "Pro1.elf" "Pro1.bin"
+arm-none-eabi-size "Pro1.elf"
+   text	   data	    bss	    dec	    hex	filename
+   1884	   1080	   1092	   4056	    fd8	Pro1.elf
+ 
+
+15:40:25 Build Finished (took 1s.89ms)
+
