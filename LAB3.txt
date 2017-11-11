@@ -1,0 +1,147 @@
+#Zad1
+
+
+
+#Zad2
+
+int main(void)
+{
+	/*
+	 * Uruchomienie GPIO
+	 * */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	//RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitTypeDef LEDy;
+	LEDy.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	LEDy.GPIO_Mode = GPIO_Mode_OUT;
+	LEDy.GPIO_OType = GPIO_OType_PP;
+	LEDy.GPIO_Speed = GPIO_Speed_100MHz;
+	LEDy.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOD, &LEDy);
+
+	TIM_TimeBaseInitTypeDef Timer;
+	Timer.TIM_Period = 16799;
+	Timer.TIM_Prescaler = 9999;
+	Timer.TIM_ClockDivision = TIM_CKD_DIV1;
+	Timer.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM2, &Timer);
+
+	//uruchomiono timer
+	TIM_Cmd(TIM2,ENABLE);
+
+	for(;;){
+		if(TIM_GetFlagStatus(TIM2, TIM_FLAG_Update)){
+			GPIO_ToggleBits(GPIOD,GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15);
+			TIM_ClearFlag(TIM2,TIM_FLAG_Update);
+		}
+	}
+}
+
+#Zad3
+
+int main(void)
+{
+	/*
+	 * Uruchomienie GPIO
+	 * */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitTypeDef LEDy;
+	LEDy.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	LEDy.GPIO_Mode = GPIO_Mode_OUT;
+	LEDy.GPIO_OType = GPIO_OType_PP;
+	LEDy.GPIO_Speed = GPIO_Speed_100MHz;
+	LEDy.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOD, &LEDy);
+
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitTypeDef LEDO;
+	LEDO.GPIO_Pin =  GPIO_Pin_13;
+	LEDO.GPIO_Mode = GPIO_Mode_OUT;
+	LEDO.GPIO_OType = GPIO_OType_PP;
+	LEDO.GPIO_Speed = GPIO_Speed_100MHz;
+	LEDO.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOB, &LEDO);
+
+	TIM_TimeBaseInitTypeDef Timer;
+	Timer.TIM_Period = 9999;
+	Timer.TIM_Prescaler = 8399;
+	Timer.TIM_ClockDivision = TIM_CKD_DIV1;
+	Timer.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM2, &Timer);
+
+	//uruchomiono timer
+	TIM_Cmd(TIM2,ENABLE);
+
+	for(;;){
+		if(TIM_GetFlagStatus(TIM2, TIM_FLAG_Update)){
+			GPIO_ToggleBits(GPIOB,GPIO_Pin_13);
+			TIM_ClearFlag(TIM2,TIM_FLAG_Update);
+		}
+	}
+}
+
+#Zad4
+
+int main(void)
+{
+	/*
+	 * Uruchomienie GPIO
+	 * */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitTypeDef LEDy;
+	LEDy.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	LEDy.GPIO_Mode = GPIO_Mode_OUT;
+	LEDy.GPIO_OType = GPIO_OType_PP;
+	LEDy.GPIO_Speed = GPIO_Speed_100MHz;
+	LEDy.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOD, &LEDy);
+
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitTypeDef LEDO;
+	LEDO.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;
+	LEDO.GPIO_Mode = GPIO_Mode_OUT;
+	LEDO.GPIO_OType = GPIO_OType_PP;
+	LEDO.GPIO_Speed = GPIO_Speed_100MHz;
+	LEDO.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOB, &LEDO);
+
+	TIM_TimeBaseInitTypeDef Timer;
+	Timer.TIM_Period = 9999;
+	Timer.TIM_Prescaler = 8399;
+	Timer.TIM_ClockDivision = TIM_CKD_DIV1;
+	Timer.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM2, &Timer);
+
+	//uruchomiono timer
+	TIM_Cmd(TIM2,ENABLE);
+
+	unsigned int counter;
+
+	for(;;){
+		counter = TIM2->CNT;
+		if(counter < 5000){
+			GPIO_SetBits(GPIOB,GPIO_Pin_13);
+		}
+		else{
+			GPIO_ResetBits(GPIOB,GPIO_Pin_13);
+		}
+
+		if(counter < 2000){
+			GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		}
+		else{
+			GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		}
+	}
+}
